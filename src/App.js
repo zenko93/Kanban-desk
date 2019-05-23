@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from 'react';
+// import './App.css';
+import ListOfTasks from "./Components/ListOfTasks";
+import { DragDropContext } from 'react-beautiful-dnd';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            lists:{
+                name:[],
+                Ids: [1],
+            },
+            count: 2,
+        }
+    }
+    render() {
+
+        const listIds = this.state.lists.Ids.map((elem, key) => elem?
+            <ListOfTasks key={elem.toString()}
+                         id={elem.toString()}
+                         saveIdOfList = {this.saveIdOfList}
+                         pullNameOfList = {this.pullNameOfList}
+            />: null);
+        return (
+                <div className="container-list" >
+                    {listIds}
+                    {console.log(this.props.id)}
+                </div>
+        );
+    }
+
+    pullNameOfList = (value) => {
+        const nameOfLists = this.state.name;
+        nameOfLists.push(value);
+
+        this.setState({
+            name: nameOfLists
+        })
+    };
+
+    saveIdOfList = () => {
+        const listIds = this.state.lists.Ids;
+        listIds.push(this.state.count);
+
+
+        this.setState({
+            Ids: listIds,
+            count: this.state.count + 1
+        })
+    };
+
 }
 
-export default App;
+
+export default App ;
